@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import type { ITask } from "@/types";
 import {
   addEdge,
@@ -6,21 +7,35 @@ import {
   Background,
   Controls,
   ReactFlow,
+  type Connection,
   type Edge,
+  type EdgeChange,
   type Node,
+  type NodeChange,
 } from "@xyflow/react";
 import { useCallback, useEffect, useState } from "react";
 import { GraphNode } from "./graphNode";
 import { createEdgesFromTasks, createNodesFromTasks } from "@/lib/utils";
 import { layoutGraph } from "@/lib/autoLayout";
 
-export default function Graph({ tasks, blockedTaskIds }: { tasks: ITask[]; blockedTaskIds: string[] }) {
+interface GraphProps {
+  tasks: ITask[];
+  blockedTaskIds: string[];
+}
+
+export default function Graph({ tasks, blockedTaskIds }: GraphProps) {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
 
-  const onNodesChange = useCallback((changes) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)), []);
-  const onEdgesChange = useCallback((changes) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)), []);
-  const onConnect = useCallback((params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)), []);
+  const onNodesChange = useCallback(
+    (changes: NodeChange<Node>[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
+    [],
+  );
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange<Edge>[]) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
+    [],
+  );
+  const onConnect = useCallback((params: Connection) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)), []);
   const nodeTypes = {
     graphNode: GraphNode,
   };

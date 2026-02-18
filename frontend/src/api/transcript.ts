@@ -1,5 +1,5 @@
 import config from "@/config";
-import type { IJob, ITask } from "../types";
+import type { IJob } from "../types";
 
 export const getTasksById = async (jobId: string): Promise<IJob> => {
   const response = await fetch(`${config.API_URL}/transcript/find?jobId=${jobId}`);
