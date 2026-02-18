@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URI = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/autonomix";
 
 if (!MONGO_URI) {
   throw new Error("MONGO_URI is not defined in environment variables");
