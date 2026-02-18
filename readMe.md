@@ -6,9 +6,9 @@
 
 ## Folder structure
 
-/autonomix-insight-board
-├── /frontend
-├── /backend
+/autonomix-insight-board\
+├──/frontend\
+├──/backend
 
 ## Setup
 
