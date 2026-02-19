@@ -1,6 +1,7 @@
 # InsightBoard "Dependency Engine"
 
-[Site is live here](https://autonomix-insight-board.vercel.app/)
+Live Demo: [Deployed on Vercel](https://autonomix-insight-board.vercel.app/)\
+Backend Url: [Deployed on Railway](https://prolific-caring-production-864b.up.railway.app/)
 
 ---
 
@@ -19,11 +20,17 @@
 3. cd frontend
 4. npm install
 5. Add VITE_API_URL=<your_backend_url> to .env
-6. npm run dev if running locally. npm start in production
+6. npm run dev (local development). npm run build (production)
 7. cd backend
 8. npm install
-9. Add MONGO_URL=<your_mongodb_instance>(if running locally, use MONGO_URI=localhost:27017), PORT=5000 and LLM_API_KEY=<gemini_api_key> to .env
-10. npm run dev if running locally. npm start in production
+9. Create .env in /backend:
+   ```env
+   MONGO_URI=<your_mongodb_instance> or mongodb://localhost:27017/dbname (local development)
+   PORT=5000
+   LLM_API_KEY=<your_gemini_api_key>
+   ```
+10. npm run dev (local development)
+11. npm run build && npm start (production)
 
 ---
 
@@ -43,7 +50,7 @@
 
 1. Asynchronous Architecture
 
-The application follows a async architecture such that slow AI queries are handled smoothly. Upon submitting a transcript, the data is immediately saved to the database and the user is redirected to a new page `/t/job-id`. The UI then polls the backend with the job-id while the LLM generates the dependency graph from the transcript.
+The application follows an async architecture such that slow AI queries are handled smoothly. Upon submitting a transcript, the data is immediately saved to the database and the user is redirected to a new page `/t/job-id`. The UI then polls the backend with the job-id while the LLM generates the dependency graph from the transcript.
 
 2. Idempotent Submission
 
@@ -53,7 +60,7 @@ When the user submits a transcript, a hash is generated for the transcript such 
 
 1. ✅ Graph Visualization
 
-The application used ReactFlow + Dagre to display the generated graph in a clean and beautiful UI. The graph displays both blocked and ready tasks as well as any cycles.
+The application uses ReactFlow + Dagre to display the generated graph in a clean and beautiful UI. The graph displays both blocked and ready tasks as well as any cycles.
 
 2. ❌ Interactive State
 
@@ -78,3 +85,11 @@ The application used ReactFlow + Dagre to display the generated graph in a clean
 - Vercel(Frontend)
 - Railway(Backend)
 - MongoDB Atlas(Database)
+
+## Trade-Offs and Future Scope
+
+- Uses polling instead of websockets for simplicity
+- No authentication (out of scope)
+- Open CORS for demo purposes and quick deployment
+- Graph node editing could be implemented given more time
+- AI Model switching on rate limits or errors
