@@ -36,7 +36,6 @@ export function useTasks() {
         }
       } catch (err) {
         if (err && typeof err === "object" && "status" in err && (err as any).status === 404) {
-          console.log("404");
           setError("Job not found.");
           clearInterval(intervalId);
           navigate("/404");
