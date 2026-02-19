@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTasksById } from "@/api/transcript";
 import type { IJob } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 export function useTasks() {
   const [loading, setLoading] = useState(true);
@@ -8,6 +9,7 @@ export function useTasks() {
   const [data, setData] = useState<IJob | null>(null);
 
   const jobId = window.location.pathname.split("/t/")[1];
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!jobId) {
@@ -33,9 +35,16 @@ export function useTasks() {
           setLoading(false);
         }
       } catch (err) {
-        setError(err instanceof Error && err.message ? err.message : "Failed to fetch tasks.");
-        clearInterval(intervalId);
-        setLoading(false);
+        if (err && typeof err === "object" && "status" in err && (err as any).status === 404) {
+          console.log("404");
+          setError("Job not found.");
+          clearInterval(intervalId);
+          navigate("/404");
+        } else {
+          setError(err instanceof Error && err.message ? err.message : "Failed to fetch tasks.");
+          clearInterval(intervalId);
+          setLoading(false);
+        }
       }
     };
 

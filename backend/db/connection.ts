@@ -10,9 +10,9 @@ export async function connectDB() {
   try {
     await mongoose.connect(MONGO_URI);
 
-    console.log("✅ MongoDB connected on port: ", process.env.DB_PORT);
+    console.log("MongoDB connected on port: ", process.env.DB_PORT);
   } catch (err) {
-    console.error("❌ MongoDB connection failed:", err);
+    console.error("MongoDB connection failed:", err);
     process.exit(1);
   }
 }

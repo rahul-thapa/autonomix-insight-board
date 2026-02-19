@@ -3,8 +3,12 @@ import type { IJob } from "../types";
 
 export const getTasksById = async (jobId: string): Promise<IJob> => {
   const response = await fetch(`${config.API_URL}/transcript/find?jobId=${jobId}`);
-  if (!response.ok) throw new Error("Failed to fetch tasks");
   const data = await response.json();
+  if (!response.ok) {
+    const error: any = new Error(data?.error || `Request failed (${response.status})`);
+    error.status = response.status;
+    throw error;
+  }
   return data.results;
 };
 
@@ -16,8 +20,11 @@ export const createTasks = async (transcript: string): Promise<IJob> => {
   });
 
   const data = await response.json();
-  if (data.error) throw new Error(data.error);
-  if (!response.ok) throw new Error("Failed to submit transcript");
+  if (!response.ok) {
+    const error: any = new Error(data?.error || `Request failed (${response.status})`);
+    error.status = response.status;
+    throw error;
+  }
 
   return data as Promise<IJob>;
 };

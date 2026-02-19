@@ -5,7 +5,7 @@ export async function findTranscriptByHash(hash: string) {
 }
 
 export async function findTranscriptById(id: string) {
-  return await JobModel.findById({ _id: id });
+  return await JobModel.findOne({ _id: id });
 }
 
 export async function createJob(hash: string, transcript: string) {

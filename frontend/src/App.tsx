@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import TranscriptInput from "./pages/transcriptInput";
-import Tasks from "./pages/tasks";
+import TranscriptInput from "@/pages/transcriptInput";
+import Tasks from "@/pages/tasks";
+import { Error404Page } from "@/components/custom/404Page";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
         <Route path="/" element={<TranscriptInput />} />
         <Route path="t/:jobId" element={<Tasks />} />
 
-        <Route path="*" element={<div>Error 404: Page Not Found</div>} />
+        <Route path="*" element={<Error404Page />} />
       </Routes>
     </div>
   );
