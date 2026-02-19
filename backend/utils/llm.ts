@@ -23,7 +23,6 @@ const taskSchema = {
 };
 
 export const generateTasksFromLLM = async (transcript: string): Promise<string> => {
-  const model = "gemini-3-flash-preview";
   const prompt = `
 You are a system that extracts tasks from meeting transcripts.
 
@@ -45,6 +44,8 @@ Transcript:
 ${transcript}
 `;
 
+  // or gemini-2.5-flash
+  const model = "gemini-3-flash-preview";
   const response = await ai.models.generateContent({
     model,
     contents: prompt,
